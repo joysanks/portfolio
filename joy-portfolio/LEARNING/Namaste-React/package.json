@@ -1,0 +1,33 @@
+{
+  "name": "namaste-react",
+  "version": "1.0.0",
+  "description": "desc",
+  "homepage": "https://github.com/joysanks/portfolio#readme",
+  "bugs": {
+    "url": "https://github.com/joysanks/portfolio/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joysanks/portfolio.git"
+  },
+  "license": "ISC",
+  "author": "Joy",
+  "type": "commonjs",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "react": "^19.2.7"
+  },
+  "browserslist": [
+    "last 2 Chrome version",
+    "last 1 Safari version",
+    "last 1 Firefox version",
+    "last 1 Edge version"
+  ]
+}
