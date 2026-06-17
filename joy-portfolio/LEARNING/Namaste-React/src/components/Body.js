@@ -4,23 +4,36 @@ import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
 
 const Body = () => {
-  const [listOfRestaurents, setListOfRestaurents] = useState(resList);
-console.log("listOfRestaurents",listOfRestaurents);
-const [filteredRestaurent, setFilteredRestaurent]  = useState(resList);
+  const [listOfRestaurents, setListOfRestaurents] = useState([]);
+  console.log("listOfRestaurents", listOfRestaurents);
+  const [filteredRestaurent, setFilteredRestaurent] = useState([]);
 
   const [searchText, setSearchText] = useState("");
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-  // const fetchData = async () => {
-  //   const data = await fetch("https://namastedev.com/api/v1/listRestaurants"
-  //   );
+  const fetchData = async () => {
+    // URL that throws a CORS error
+    const apiUrl =
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.97530&lng=77.59100&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
 
-  //   const json = await data.json;
-  //   console.log(json);
-  //   // setListOfRestaurents(json?.data?.cards[2]?.data?.data?.cards);
-  // };
+    // Prefix the URL with corsproxy.io
+    const data = await fetch(
+      "https://corsproxy.io/?url=" + encodeURIComponent(apiUrl),
+    );
+
+    const json = await data.json();
+    // console.log(json);
+    setListOfRestaurents(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants,
+    );
+    setFilteredRestaurent(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+        ?.restaurants,
+    );
+  };
 
   if (listOfRestaurents.length === 0) {
     return <Shimmer />;
@@ -29,7 +42,7 @@ const [filteredRestaurent, setFilteredRestaurent]  = useState(resList);
   return (
     <div className="body">
       <div className="filter">
-        <div className="search">                                                                                                                                                                                                                                                                                                                                    
+        <div className="search">
           <input
             type="text"
             className="search-box"
@@ -41,11 +54,11 @@ const [filteredRestaurent, setFilteredRestaurent]  = useState(resList);
           <button
             onClick={() => {
               console.log(searchText);
-                const filteredRestaurents = listOfRestaurents.filter((res) => 
-                  res.info.name.toLowerCase().includes(searchText.toLowerCase())
-                );
+              const filteredRestaurents = listOfRestaurents.filter((res) =>
+                res.info.name.toLowerCase().includes(searchText.toLowerCase()),
+              );
 
-                setFilteredRestaurent(filteredRestaurents);
+              setFilteredRestaurent(filteredRestaurents);
             }}
           >
             search
