@@ -85,3 +85,7 @@
   width: 100px;
   height: 100px;
 }
+
+.user-card {
+  border: 1px solid black;
+}

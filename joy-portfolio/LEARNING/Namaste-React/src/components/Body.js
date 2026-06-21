@@ -16,8 +16,7 @@ const Body = () => {
 
   const fetchData = async () => {
     // URL that throws a CORS error
-    const apiUrl =
-      "https://namastedev.com/api/v1/listRestaurants";
+    const apiUrl = "https://namastedev.com/api/v1/listRestaurants";
 
     // Prefix the URL with corsproxy.io
     const data = await fetch(
@@ -80,7 +79,12 @@ const Body = () => {
 
       <div className="res-container">
         {filteredRestaurent.map((restaurent) => (
-          <Link key={restaurent?.info?.id} to = {"/restaurants/" + restaurent?.info?.id} ><RestaurantCard  resData={restaurent} /></Link>
+          <Link
+            key={restaurent?.info?.id}
+            to={"/restaurants/" + restaurent?.info?.id}
+          >
+            <RestaurantCard resData={restaurent} />
+          </Link>
         ))}
       </div>
     </div>
