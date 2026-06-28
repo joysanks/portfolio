@@ -2,26 +2,29 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FOOD_IMG_URL, MENU_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
 
 const RestaurantMenu = () => {
-  const [resInfo, setResInfo] = useState(null);
+  // const [resInfo, setResInfo] = useState(null);
   const { resId } = useParams();
 
-  useEffect(() => {
-    fetchMenu();
-  }, []);
+  const resInfo = useRestaurantMenu(resId);
 
-  const fetchMenu = async () => {
-    // URL that throws a CORS error
-    const apiUrl = MENU_URL + resId;
+  // useEffect(() => {
+  //   fetchMenu();
+  // }, []);
 
-    // Prefix the URL with corsproxy.io
-    const data = await fetch(
-      "https://corsproxy.io/?url=" + encodeURIComponent(apiUrl),
-    );
-    const json = await data?.json();
-    setResInfo(json);
-  };
+  // const fetchMenu = async () => {
+  //   // URL that throws a CORS error
+  //   const apiUrl = MENU_URL + resId;
+
+  //   // Prefix the URL with corsproxy.io
+  //   const data = await fetch(
+  //     "https://corsproxy.io/?url=" + encodeURIComponent(apiUrl),
+  //   );
+  //   const json = await data?.json();
+  //   setResInfo(json);
+  // };
 
   console.log("resInfo", resInfo);
   if (resInfo === null) return <Shimmer />;
