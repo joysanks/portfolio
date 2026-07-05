@@ -1,7 +1,7 @@
 /* #heading {
     color: red;
 } */
-
+/* 
 .header {
   display: flex;
   justify-content: space-between;
@@ -88,4 +88,10 @@
 
 .user-card {
   border: 1px solid black;
-}
+} */
+
+/* @tailwind base;
+@tailwind components; 
+@tailwind utilities; */
+
+@import "tailwindcss";
