@@ -79,7 +79,7 @@
 // root.render(<HeadingComponent/>);
 
 // ======================Next part---PROJECT 1=====================
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import Header from "./components/Header";
 import Body from "./components/Body";
@@ -88,16 +88,31 @@ import Error from "./components/Error";
 import About from "./components/About";
 // import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
+import UserContext from "./utils/UserContext";
 // import Grocery from "./components/Grocery";
-const Contact = lazy(() => import( "./components/Contact"));
+const Contact = lazy(() => import("./components/Contact"));
 
-const Grocery = lazy(() => import( "./components/Grocery"));
+const Grocery = lazy(() => import("./components/Grocery"));
 
 const AppLayout = () => {
+  const [userName, setUserName] = useState();
+
+  useEffect(() => {
+    const data = {
+      name: "Bruno Fernandes",
+    };
+
+    setUserName(data.name);
+  }, []);
+
   return (
     <div className="app">
+      <UserContext.Provider
+        value={{ loggedInUser: userName, setUserName }}
+      >
       <Header />
       <Outlet />
+      </UserContext.Provider>
     </div>
   );
 };
@@ -118,7 +133,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/contact",
-         element: (
+        element: (
           <Suspense fallback={<h1>Loading...</h1>}>
             <Contact />
           </Suspense>
