@@ -1,20 +1,25 @@
-import { useEffect, useState } from "react";
-import RestaurantCard from "./RestaurentCard";
-import resList from "../utils/mockData";
+import { useContext, useEffect, useState } from "react";
+import RestaurantCard, { isVeg } from "./RestaurentCard";
+// import resList from "../utils/mockData";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [listOfRestaurents, setListOfRestaurents] = useState([]);
   const [filteredRestaurent, setFilteredRestaurent] = useState([]);
 
+  // console.log("filteredRestaurent", filteredRestaurent);
+
+  const RestaurentIsVeg = isVeg(RestaurantCard);
 
   const isOnline = useOnlineStatus();
 
- 
-  
   const [searchText, setSearchText] = useState("");
+
+  const {loggedInUser, setUserName} = useContext(UserContext);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -40,16 +45,16 @@ const Body = () => {
     );
   };
 
-   if(isOnline===false) return (
-    <h1>You are offline!! Please check your internet connection.</h1>
-  );
+  if (isOnline === false)
+    return <h1>You are offline!! Please check your internet connection.</h1>;
 
   if (listOfRestaurents.length === 0) {
     return <Shimmer />;
   }
 
   return (
-    <div className="body">{}
+    <div className="body">
+      {}
       <div className="filter flex">
         <div className="search m-4 p-4 ">
           <input
@@ -74,19 +79,23 @@ const Body = () => {
             Search
           </button>
         </div>
-        <div  className="search m-4 p-4 flex items-center"  >
+        <div className="search m-4 p-4 flex items-center">
           <button
-          className="px-4 py-2 bg-gray-100 rounded-lg"
-          onClick={() => {
-            const filteredList = listOfRestaurents.filter(
-              (res) => res.info.avgRating > 4,
-            );
-            setListOfRestaurents(filteredList);
-          }}
-        >
-          Top Rated Restaurent
-        </button></div>
-        
+            className="px-4 py-2 bg-gray-100 rounded-lg"
+            onClick={() => {
+              const filteredList = listOfRestaurents.filter(
+                (res) => res.info.avgRating > 4,
+              );
+              setListOfRestaurents(filteredList);
+            }}
+          >
+            Top Rated Restaurent
+          </button>
+        </div>
+        <div className="search m-4 p-4 flex items-center">
+            <label>User:</label>
+            <input value={loggedInUser} className="border border-black p-2 m-2" onChange={(e)=>setUserName(e.target.value)}></input>
+        </div>
       </div>
 
       <div className="flex flex-wrap">
@@ -95,7 +104,11 @@ const Body = () => {
             key={restaurent?.info?.id}
             to={"/restaurants/" + restaurent?.info?.id}
           >
-            <RestaurantCard resData={restaurent} />
+            {restaurent.info.veg ? (
+              <RestaurentIsVeg resData={restaurent} />
+            ) : (
+              <RestaurantCard resData={restaurent} />
+            )}
           </Link>
         ))}
       </div>
